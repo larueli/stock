@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ titre }}
+{% endblock %}
+
+{% block content %}
+    <div class="container my-auto">
+        <div class="row">
+            <h1 class="cover-heading">{{ titre }}</h1>
+        </div>
+        <div class="row text-left">
+            <p class="lead">{{ description|raw }}</p>
+        </div>
+        <div class="row my-2">
+            <div class="col-md"></div>
+            <div class="col">
+                {{ form_start(formulaire) }}
+                {{ form_widget(formulaire) }}
+                <div class="row">
+                    {% if not creation and route_delete is defined %}
+                        <div class="col">
+                            <a class="btn btn-danger" href="{{ route_delete }}"><i class="fa fa-trash"
+                                                                                   aria-hidden="true"></i> Supprimer</a>
+                        </div>
+                    {% endif %}
+                    <div class="col">
+                        <a class="btn btn-warning" href="{{ route_retour ?: url('anonyme_user_index') }}"><i
+                                    class="fa fa-backward" aria-hidden="true"></i> Annuler</a>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success" href="{{ route_post }}">Valider <i
+                                    class="fa fa-check" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md"></div>
+        </div>
+        {{ form_end(formulaire) }}
+    </div>
+{% endblock %}
+

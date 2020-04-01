@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FrontController!{% endblock %}
+
+{% block content %}
+<div class="container my-auto">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-success" href="{{ path('editCategorie') }}">Ajouter une catégorie</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-success" href="{{ path('editConsommable') }}">Ajouter un consommable</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-success" href="{{ path('courses', {'stockMinimum': 50}) }}">Envoyer la liste de course</a>
+        </div>
+    </div>
+    {% for categorie in categories %}
+        <div class="row my-2">
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapse{{ categorie.id }}" role="button" aria-expanded="false" aria-controls="#collapse{{ categorie.id }}">{{ categorie.nom }}</a><a class="btn btn-success" href="{{ path('editCategorie', {'id': categorie.id}) }}">Editer</a>
+        </div>
+        <div class="row" id="collapse{{ categorie.id }}">
+            {% for consommable in categorie.consommables %}
+            <div class="row">
+                <input type='number' size='10' id='quantite{{ consommable.id }}' name='quantite{{ consommable.id }}' value='{{ consommable.quantite }}' /><a href="{{ path('editConsommable', {'id': consommable.id}) }}">Editer</a>
+            </div>
+                <script>
+                    $("#quantite{{ consommable.id }}").on("change paste keyup", function() {
+                        $.ajax({
+                            type: "GET",
+                            url: '{{ path('api_setQuantite', {'id': consommable.id } ) }}'+$(this).val(),
+                        });
+                    });
+                </script>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

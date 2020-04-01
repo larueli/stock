@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- PAGE settings -->
+    <link rel="icon" href="{{ asset('favicon.ico') }}"/>
+    <title>{% block title %}{% endblock %} | Logements UTT</title>
+    <meta name="description" content="{% block descriptionPage %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta name="author" content="UTT / Ivann LARUELLE">
+    <link rel="stylesheet" href="{{ absolute_url(asset('test.css')) }}">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
+</head>
+
+<body class="text-center bg-light d-flex flex-column">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+{% block body %}
+  <div class="container-fluid border-bottom bg-light">
+    <div class="row">
+      <div class="mx-auto col">
+        <nav class="navbar navbar-light navbar-expand-md">
+          <a class="navbar-brand"><b class="text-dark">Stock</b></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent"
+                  aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+            <ul class="navbar-nav">
+
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+    {% if app.session %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+            <div class="container my-2">
+              <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message | raw }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+    <div class="footer container-fluid align-self-end border-top pt-1">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="mt-auto text-secondary small"><i class="fa fa-copyright" aria-hidden="true"></i> <a
+                            href="https://ivannlaruelle.fr">Ivann LARUELLE</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+{% block scripts %}
+{% endblock %}
 </html>
