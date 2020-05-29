@@ -2,32 +2,41 @@
 {% block title %}Courses{% endblock %}
 {% block content %}
     <div class="container my-auto">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-            <th scope="col">Désignation</th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Prix</th>
-            </thead>
-            <tbody class="">
-            {% for categorie, valeurs in tableau %}
+        <div class="row">
+            <div class="col mx-auto">
+                <h1 class="cover-heading"><b>Voilà ce que vous devez acheter</b><br></h1>
+                <p class="lead">Faites vos courses, et surtout faites-vous plaisir ! N'oubliez pas de mettre à jour les
+                    stocks après vos achats.</p>
+            </div>
+        </div>
+        <div class="row my-4">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <th scope="col">Désignation</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                </thead>
+                <tbody class="">
+                {% for categorie, valeurs in tableau %}
+
+                    <tr>
+                        <td colspan="3" class="text-center">{{ categorie }} - {{ valeurs.somme }} €</td>
+                    </tr>
+
+                    {% for tableauProduit in valeurs.produits %}
+                        <tr>
+                            <td>{{ tableauProduit.consommable.nom }}</td>
+                            <td>{{ tableauProduit.nbPackAAcheter }}</td>
+                            <td>{{ tableauProduit.prix }} €</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
 
                 <tr>
-                    <td colspan="3" class="text-center">{{ categorie }} - {{ valeurs.somme }} €</td>
+                    <td colspan="3" class="text-center">Somme totale : {{ total }} €</td>
                 </tr>
-
-                {% for tableauProduit in valeurs.produits %}
-                    <tr>
-                        <td>{{ tableauProduit.consommable.nom }}</td>
-                        <td>{{ tableauProduit.nbPackAAcheter }}</td>
-                        <td>{{ tableauProduit.prix }} €</td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
-
-            <tr>
-                <td colspan="3" class="text-center">Somme totale : {{ total }} €</td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

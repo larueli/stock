@@ -55,7 +55,8 @@ class FrontController extends AbstractController
                 $prix = $nbPackAAcheter * $consommable->getPrixPaquet();
                 $tableau[$categorie->getNom()]["somme"] += $prix;
                 $prixTotal += $prix;
-                $tableau[$categorie->getNom()]["produits"][] = ["consommable" => $consommable, "nbPackAAcheter" => $nbPackAAcheter, "prix" => $prix];
+                if ($prix != 0)
+                    $tableau[$categorie->getNom()]["produits"][] = ["consommable" => $consommable, "nbPackAAcheter" => $nbPackAAcheter, "prix" => $prix];
             }
         }
         //dd($tableau);
