@@ -3,8 +3,16 @@
 {% block title %}Hello FrontController!{% endblock %}
 
 {% block content %}
-<div class="container my-auto">
-    <div class="row">
+    <div class="container my-auto">
+
+    <div class="col mx-auto">
+        <h1 class="cover-heading"><b>Gestion de stocks</b><br></h1>
+        <p class="lead">Indiquez ci-dessous vos stocks, puis cliquez sur le bouton "faire les courses" pour savoir quoi
+            acheter !</p>
+    </div>
+
+
+    <div class="row my-4">
         <div class="col">
             <a class="btn btn-success" href="{{ path('editCategorie') }}">Ajouter une catégorie</a>
         </div>
@@ -17,22 +25,36 @@
     </div>
     {% for categorie in categories %}
         <div class="row my-2">
-            <a class="btn btn-primary" data-toggle="collapse" href="#collapse{{ categorie.id }}" role="button" aria-expanded="false" aria-controls="#collapse{{ categorie.id }}">{{ categorie.nom }}</a><a class="btn btn-success" href="{{ path('editCategorie', {'id': categorie.id}) }}">Editer</a>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapse{{ categorie.id }}" role="button"
+               aria-expanded="false" aria-controls="#collapse{{ categorie.id }}">{{ categorie.nom }}</a><a
+                    class="btn btn-success" href="{{ path('editCategorie', {'id': categorie.id}) }}">Editer</a>
         </div>
-        <div class="row" id="collapse{{ categorie.id }}">
-            {% for consommable in categorie.consommables %}
-            <div class="row">
-                <input type='number' size='10' id='quantite{{ consommable.id }}' name='quantite{{ consommable.id }}' value='{{ consommable.quantite }}' /><a href="{{ path('editConsommable', {'id': consommable.id}) }}">Editer</a>
-            </div>
-                <script>
-                    $("#quantite{{ consommable.id }}").on("change paste keyup", function() {
-                        $.ajax({
-                            type: "GET",
-                            url: '{{ path('api_setQuantite', {'id': consommable.id } ) }}'+$(this).val(),
+        <tr class="row" id="collapse{{ categorie.id }}">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <th scope="col">Désignation</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix du paquet</th>
+                <th scope="col">Action</th>
+                </thead>
+                <tbody class="">
+                {% for consommable in categorie.consommables %}
+                    <tr>
+                        <td>{{ consommable.nom }}</td>
+                        <td><input type='number' size='10' class="input-number" id='quantite{{ consommable.id }}'
+                                   name='quantite{{ consommable.id }}' value='{{ consommable.quantite }}'/></td>
+                        <td>{{ consommable.prixPaquet }} €</td>
+                        <td><a href="{{ path('editConsommable', {'id': consommable.id}) }}">Editer</a></td>
+                    </tr>
+                    <script>
+                        $("#quantite{{ consommable.id }}").on("change paste keyup", function () {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.open("GET", '{{ path('api_setQuantite', {'id': consommable.id, 'quantite': 0} ) }}' + document.getElementById("quantite{{ consommable.id }}").value, true);
+                            xhttp.send();
                         });
-                    });
-                </script>
-            {% endfor %}
+                    </script>
+                {% endfor %}
+            </table>
         </div>
     {% endfor %}
 </div>

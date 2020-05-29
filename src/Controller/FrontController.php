@@ -36,17 +36,31 @@ class FrontController extends AbstractController
      */
     public function courses(EntityManagerInterface $entityManager)
     {
-        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        $sommeCategories = [];
         $tableau = [];
-        foreach ($categories as $categorie)
-        {
-            $tableau[$categorie->getNom()] = $entityManager->getRepository(Consommable::class)->createQueryBuilder('u')
-                ->andWhere('u.categorie = :cat')
-                ->andWhere('u.stock < :stockMin')
-                ->setParameters(["cat"=>$categorie->getId(), "stockMin"=>50])->getQuery()->getArrayResult();
+        $prixTotal = 0;
+        foreach ($entityManager->getRepository(Categorie::class)->findAll() as $categorie) {
+            $tableau[$categorie->getNom()] = [];
+            $tableau[$categorie->getNom()]["somme"] = 0;
+            $tableau[$categorie->getNom()]["produits"] = [];
+            foreach ($entityManager->getRepository(Consommable::class)->createQueryBuilder('u')
+                         ->andWhere('u.categorie = :cat')
+                         ->setParameters(["cat" => $categorie->getId()])->getQuery()->execute() as $consommable) {
+                /** @var Consommable $consommable */
+                $nbPackAAcheter = 0;
+                if ($consommable->getQuantiteOptimale() > $consommable->getQuantite())
+                    $nbPackAAcheter = ceil((float) (($consommable->getQuantiteOptimale() - $consommable->getQuantite()) / $consommable->getVenduParPaquetsDe()));
+                else
+                    $nbPackAAcheter = 0;
+                $prix = $nbPackAAcheter * $consommable->getPrixPaquet();
+                $tableau[$categorie->getNom()]["somme"] += $prix;
+                $prixTotal += $prix;
+                $tableau[$categorie->getNom()]["produits"][] = ["consommable" => $consommable, "nbPackAAcheter" => $nbPackAAcheter, "prix" => $prix];
+            }
         }
+        //dd($tableau);
         return $this->render('courses.html.twig', [
-            'tableau' => $tableau,
+            'tableau' => $tableau, 'total' => $prixTotal,
         ]);
     }
 
