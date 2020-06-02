@@ -19,7 +19,7 @@
                 <tbody class="">
                 {% for categorie, valeurs in tableau %}
 
-                    <tr>
+                    <tr class="table-primary">
                         <td colspan="3" class="text-center">{{ categorie }} - {{ valeurs.somme }} €</td>
                     </tr>
 
@@ -32,7 +32,7 @@
                     {% endfor %}
                 {% endfor %}
 
-                <tr>
+                <tr class="table-success">
                     <td colspan="3" class="text-center">Somme totale : {{ total }} €</td>
                 </tr>
                 </tbody>
