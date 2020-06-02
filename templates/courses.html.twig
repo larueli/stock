@@ -19,17 +19,19 @@
                 <tbody class="">
                 {% for categorie, valeurs in tableau %}
 
-                    <tr class="table-primary">
-                        <td colspan="3" class="text-center">{{ categorie }} - {{ valeurs.somme }} €</td>
-                    </tr>
-
-                    {% for tableauProduit in valeurs.produits %}
-                        <tr>
-                            <td>{{ tableauProduit.consommable.nom }}</td>
-                            <td>{{ tableauProduit.nbPackAAcheter }}</td>
-                            <td>{{ tableauProduit.prix }} €</td>
+                    {% if not valeurs.somme == 0 %}
+                        <tr class="table-primary">
+                            <td colspan="3" class="text-center">{{ categorie }} - {{ valeurs.somme }} €</td>
                         </tr>
-                    {% endfor %}
+
+                        {% for tableauProduit in valeurs.produits %}
+                            <tr>
+                                <td>{{ tableauProduit.consommable.nom }}</td>
+                                <td>{{ tableauProduit.nbPackAAcheter }}</td>
+                                <td>{{ tableauProduit.prix }} €</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
 
                 <tr class="table-success">
