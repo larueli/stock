@@ -14,5 +14,4 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-src/Migrations
 /.idea/dataSources*
