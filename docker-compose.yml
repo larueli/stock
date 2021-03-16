@@ -8,16 +8,17 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - APP_ENV=prod
-      - APP_SECRET=CHANGEMEEEEEEEEEEE
-      - DATABASE_URL=mysql://userStock:superSecretPasswordToChange@db:3306/stock
+      APP_ENV: prod
+      APP_SECRET: CHANGEMEEEEEEEEEEE
+      DATABASE_URL: mysql://userStock:superSecretPasswordToChange@db:3306/stock
+      WAIT_HOSTS: db:3306
   db:
     image: "mariadb"
     restart: always
     volumes:
       - ./dbStorage:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=superRootPasswordToChange
-      - MYSQL_DATABASE=stock
-      - MYSQL_USER=userStock
-      - MYSQL_PASSWORD=superSecretPasswordToChange
+      MYSQL_ROOT_PASSWORD: superRootPasswordToChange
+      MYSQL_DATABASE: stock
+      MYSQL_USER: userStock
+      MYSQL_PASSWORD: superSecretPasswordToChange
