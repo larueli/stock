@@ -5,7 +5,7 @@
         "php": "^8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "laminas/laminas-code": "^3.4",
+        "laminas/laminas-code": "^4.3",
         "laminas/laminas-eventmanager": "^3.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
